@@ -16,16 +16,32 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Handles the retrieval and processing of building data from the GMAF API.
+ * This handler is responsible for querying the GMAF API for building data,
+ * converting the data into appropriate models, and returning the data to the controller.
+ */
 @Component
 public class BuildingHandler {
 
     private final String QUERY_KEYWORD = "Building";
     private final GMAFClient gmafClient;
 
+    /**
+     * Constructs a BuildingHandler with a GMAFClient.
+     *
+     * @param gmafClient The GMAFClient to be used for API interactions.
+     */
     public BuildingHandler(GMAFClient gmafClient) {
         this.gmafClient = gmafClient;
     }
 
+    /**
+     * Retrieves a list of all building data from the GMAF API.
+     *
+     * @return A list of BuildingData objects.
+     * @throws ApiException If there is an error during API communication.
+     */
     public List<BuildingData> getAllBuildingData() throws ApiException {
         List<BuildingData> result = new ArrayList<>();
         List<String> ids = gmafClient.getApiInstance().queryByKeyword(gmafClient.getToken(), QUERY_KEYWORD);
@@ -55,6 +71,13 @@ public class BuildingHandler {
         return result;
     }
 
+    /**
+     * Retrieves building data for a specific building identified by its name.
+     *
+     * @param name The name of the building to retrieve data for.
+     * @return An ExtendedBuildingData object if found, null otherwise.
+     * @throws ApiException If there is an error during API communication.
+     */
     public ExtendedBuildingData getBuildingByName(String name) throws ApiException {
         ExtendedBuildingData result = null;
         List<String> ids = gmafClient.getApiInstance().queryByKeyword(gmafClient.getToken(), name);
@@ -93,6 +116,12 @@ public class BuildingHandler {
         return result;
     }
 
+    /**
+     * Formats the provided string by replacing newline characters and multiple spaces.
+     *
+     * @param value The string to be formatted.
+     * @return The formatted string.
+     */
     private String formatDescription(String value) {
         return value.replaceAll("\\n", " ").replaceAll(" {13}", " ");
     }
