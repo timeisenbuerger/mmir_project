@@ -4,7 +4,9 @@ import de.tei.mmir.gmaf.api.DefaultApi;
 import de.tei.mmir.gmaf.invoker.ApiClient;
 import de.tei.mmir.gmaf.invoker.ApiException;
 import de.tei.mmir.gmaf.invoker.Configuration;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,14 @@ public class GMAFClient {
     private final String API_KEY = "fp2023";
 
     @Getter
+    @Setter(value = AccessLevel.PACKAGE)
     private DefaultApi apiInstance;
     @Getter
     private String token;
 
     public GMAFClient() {
         initApiClient();
+        token = refreshToken();
     }
 
     private void initApiClient() {
@@ -30,9 +34,14 @@ public class GMAFClient {
         defaultApiClient.setBasePath(serverUrl);
 
         apiInstance = new DefaultApi(defaultApiClient);
+    }
+
+    public String refreshToken() {
+        String tokenResult = null;
         try {
-            token = apiInstance.getAuthToken(API_KEY);
-            logger.info(token);
+            tokenResult = apiInstance.getAuthToken(API_KEY);
+            logger.info(tokenResult);
+
         } catch (ApiException e) {
             String errorMessage = "Exception when calling DefaultApi#getAuthToken";
             errorMessage += "Status code: " + e.getCode();
@@ -40,5 +49,6 @@ public class GMAFClient {
             errorMessage += "Response headers: " + e.getResponseHeaders();
             logger.error(errorMessage);
         }
+        return tokenResult;
     }
 }
