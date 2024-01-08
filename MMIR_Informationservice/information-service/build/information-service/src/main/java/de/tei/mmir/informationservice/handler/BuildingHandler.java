@@ -55,7 +55,7 @@ public class BuildingHandler {
         return result;
     }
 
-    public BuildingData getBuildingByName(String name) throws ApiException {
+    public ExtendedBuildingData getBuildingByName(String name) throws ApiException {
         ExtendedBuildingData result = null;
         List<String> ids = gmafClient.getApiInstance().queryByKeyword(gmafClient.getToken(), name);
         for (String id : ids) {
