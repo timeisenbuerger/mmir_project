@@ -20,32 +20,25 @@ public class GMAFClientTest {
     void setUp() {
         mockDefaultApi = mock(DefaultApi.class);
         gmafClient = new GMAFClient();
-        gmafClient.setApiInstance(mockDefaultApi);
     }
 
     @Test
     void refreshToken_Success() throws ApiException {
-        // Setup
         String expectedToken = "testToken";
         when(mockDefaultApi.getAuthToken(anyString())).thenReturn(expectedToken);
 
-        // Action
         String actualToken = gmafClient.refreshToken();
 
-        // Assertion
         assertThat(actualToken).isNotNull().isEqualTo(expectedToken);
         verify(mockDefaultApi).getAuthToken(anyString());
     }
 
     @Test
     void refreshToken_ApiException() throws ApiException {
-        // Setup
         when(mockDefaultApi.getAuthToken(anyString())).thenThrow(ApiException.class);
 
-        // Action
         String actualToken = gmafClient.refreshToken();
 
-        // Assertion
         assertThat(actualToken).isNull();
         verify(mockDefaultApi).getAuthToken(anyString());
     }
