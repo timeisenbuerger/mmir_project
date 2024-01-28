@@ -87,7 +87,6 @@ public class BuildingHandler {
             GeneralMetadata generalMetadata = mmfg.getGeneralMetadata();
             if (generalMetadata != null) {
                 String fileName = generalMetadata.getFileName();
-                //Wenn die Strings zu 80% oder mehr ähneln, dann wird das wohl das Gebäude sein, was wir suchen
                 if (fileName != null && StringSimilarityUtil.calculateSimilarity(name, fileName) >= 0.8) {
                     result = new ExtendedBuildingData();
 

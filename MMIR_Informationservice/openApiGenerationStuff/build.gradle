@@ -15,7 +15,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-// Konfigurieren des openApiGenerate Tasks
 openApiGenerate {
     generatorName = "java"
     inputSpec = "$rootDir/api-gen/gmaf-openapi-spec2.json".toString()
